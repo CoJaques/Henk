@@ -1,4 +1,6 @@
-package ch.heigvd;
+package ch.heigvd.Processor.Base64;
+
+import ch.heigvd.Processor.IDataProcessor;
 
 import java.util.Base64;
 
