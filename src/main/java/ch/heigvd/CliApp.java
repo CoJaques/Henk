@@ -1,16 +1,17 @@
 package ch.heigvd;
 
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.Base64;
 import java.util.concurrent.Callable;
 
-@Command(description = "Base64 file encoder", mixinStandardHelpOptions = true)
+
+@Command(description = "File encoder/decoder", mixinStandardHelpOptions = true)
 public class CliApp implements Callable<Integer> {
 
     @Parameters(index = "0", description = "Input file path")
@@ -19,24 +20,33 @@ public class CliApp implements Callable<Integer> {
     @Parameters(index = "1", description = "Output file path")
     private String outputFile;
 
+    @Option(names = "--type", description = "Type of encoding/decoding")
+    private String type;
+
+    @Option(names = "--decode", description = "decode action")
+    private boolean isDecoder;
+
     @Override
     public Integer call() throws Exception {
-        // Read the file into a byte array
+        IDataProcessor dataProcessor = DataProcessorFactory.getProcessor(type, isDecoder);
+
+        if (dataProcessor == null) {
+            System.out.println("Invalid type specified");
+            return 1;
+        }
+
         byte[] inputBytes;
         try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(inputFile))) {
             inputBytes = bis.readAllBytes();
         }
 
-        // Base64 encode
-        byte[] encodedBytes = Base64.getEncoder().encode(inputBytes);
+        byte[] outputBytes = dataProcessor.process(inputBytes);
 
-        // Write the encoded bytes to the output file
         try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outputFile))) {
-            bos.write(encodedBytes);
+            bos.write(outputBytes);
         }
 
-        System.out.println("File encoded and written to: " + outputFile);
+        System.out.println(dataProcessor.getSuccessMessage() + outputFile);
         return 0;
     }
 }
-
