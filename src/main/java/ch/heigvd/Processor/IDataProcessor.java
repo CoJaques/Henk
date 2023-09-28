@@ -1,4 +1,4 @@
-package ch.heigvd;
+package ch.heigvd.Processor;
 
 public interface IDataProcessor {
     byte[] process(byte[] input);

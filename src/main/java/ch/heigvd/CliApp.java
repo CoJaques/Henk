@@ -1,5 +1,6 @@
 package ch.heigvd;
 
+import ch.heigvd.Processor.IDataProcessor;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
