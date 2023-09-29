@@ -2,7 +2,16 @@ package ch.heigvd.Processor.ROT13;
 
 import ch.heigvd.Processor.IDataProcessor;
 
+/**
+ * ROT13 processor class for encoding/decoding data using ROT13 algorithm.
+ * @see <a href="https://en.wikipedia.org/wiki/ROT13">ROT13</a>
+ */
 public class ROT13Processor implements IDataProcessor {
+
+    /**
+     * Process the input data using ROT13 algorithm.
+     * As ROT13 is symmetric (i.e., encoding and decoding are the same operation), this method can be used for both.
+     */
     public byte[] process(byte[] input) {
         byte[] output = new byte[input.length];
         for (int i = 0; i < input.length; i++) {
@@ -13,7 +22,8 @@ public class ROT13Processor implements IDataProcessor {
         }
         return output;
     }
+
     public String getSuccessMessage() {
-        return "File encoded/decoded using ROT13 and written to: ";
+        return "File encoded/decoded using ROT13 ";
     }
 }
