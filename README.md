@@ -1,4 +1,4 @@
-# README.md for Henk (like Encoder but more Dutch)
+# README.md for Henk
 
 ## Introduction
 
@@ -13,7 +13,7 @@ Compile the Java classes and package them into a JAR file. Make sure you include
 The general format for running the CliApp is as follows:
 
 ```
-java -jar <path-to-jar> <input-file-path> <output-file-path> [--type <type>] [--decode]
+java -jar <path-to-jar> <input-file-path> <output-file-path> [--type <type>] [--decode] [--key <key>]
 ```
 
 ### Parameters
@@ -23,8 +23,9 @@ java -jar <path-to-jar> <input-file-path> <output-file-path> [--type <type>] [--
 
 ### Options
 
-- `--type <type>`: The type of encoding or decoding to use (e.g., "base64", "rot13").
+- `--type <type>`: Specifies the type of encoding or decoding to use. Available types are "base64", "rot13", and "aes".
 - `--decode`: Use this flag if you want to decode the input file.
+- `--key <key>`: Specifies the key to use for encoding or decoding types that depend on cryptographic keys (e.g., "aes").
 
 ## Examples
 
@@ -40,6 +41,26 @@ java -jar CliApp.jar input.txt output.txt --type base64
 java -jar CliApp.jar input.txt output.txt --type base64 --decode
 ```
 
+### Encoding a File with AES
+
+```sh
+java -jar CliApp.jar input.txt output.txt --type aes --key yourKeyHere
+```
+
+### Decoding a File with AES
+
+```sh
+java -jar CliApp.jar input.txt output.txt --type aes --decode --key yourKeyHere
+```
+
+## Supported Processors
+
+- Base64 Encoder
+- Base64 Decoder
+- ROT13 Processor (encoder and decoder)
+- AES Encoder
+- AES Decoder
+
 ## Return Codes
 
 - `0`: Success
@@ -47,6 +68,7 @@ java -jar CliApp.jar input.txt output.txt --type base64 --decode
 
 ## Contributing and Support
 
-For any issues, please refer to the source code or contact the development team.
+For any issues, please refer to the source code and submit a pull request
 
 Feel free to extend the supported algorithms by modifying the `DataProcessorFactory` class and implementing new `IDataProcessor` classes.
+
