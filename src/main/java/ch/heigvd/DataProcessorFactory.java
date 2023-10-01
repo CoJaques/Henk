@@ -34,12 +34,16 @@ public class DataProcessorFactory {
      * @param type      The type of the data processor.
      * @param isDecoder Whether the processor is a decoder or an encoder.
      * @return The data processor instance.
+     * @throws IllegalArgumentException If the type is unknown.
      */
-    public static IDataProcessor getProcessor(String type, boolean isDecoder, String key) {
+    public static IDataProcessor getProcessor(String type, boolean isDecoder, String key) throws IllegalArgumentException {
         IDataProcessor processor = isDecoder ? decoders.get(type) : encoders.get(type);
 
         if (processor instanceof IKeyedDataProcessor)
             ((IKeyedDataProcessor) processor).setKey(key);
+
+        if (processor == null)
+            throw new IllegalArgumentException("Unknown type: " + type);
 
         return processor;
     }
