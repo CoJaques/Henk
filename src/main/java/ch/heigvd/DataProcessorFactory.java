@@ -2,7 +2,10 @@ package ch.heigvd;
 
 import ch.heigvd.Processor.Base64.Base64Decoder;
 import ch.heigvd.Processor.Base64.Base64Encoder;
+import ch.heigvd.Processor.Aes.AESDecoder;
+import ch.heigvd.Processor.Aes.AESEncoder;
 import ch.heigvd.Processor.IDataProcessor;
+import ch.heigvd.Processor.IKeyedDataProcessor;
 import ch.heigvd.Processor.ROT13.ROT13Processor;
 
 import java.util.HashMap;
@@ -21,17 +24,23 @@ public class DataProcessorFactory {
         encoders.put("base64", new Base64Encoder());
         decoders.put("rot13", new ROT13Processor());
         encoders.put("rot13", new ROT13Processor());
+        decoders.put("aes", new AESDecoder());
+        encoders.put("aes", new AESEncoder());
     }
 
     /**
-     * Retrieves an IDataProcessor instance based on the type and operation specified.
+     * Get a data processor instance based on type and operation.
      *
-     * @param type      The type of encoding/decoding, e.g., "base64", "rot13".
-     * @param isDecoder Specifies whether to get a decoder or an encoder.
-     * @return An IDataProcessor instance corresponding to the specified type and operation,
-     * or null if the type is not recognized.
+     * @param type      The type of the data processor.
+     * @param isDecoder Whether the processor is a decoder or an encoder.
+     * @return The data processor instance.
      */
-    public static IDataProcessor getProcessor(String type, boolean isDecoder) {
-        return isDecoder ? decoders.get(type) : encoders.get(type);
+    public static IDataProcessor getProcessor(String type, boolean isDecoder, String key) {
+        IDataProcessor processor = isDecoder ? decoders.get(type) : encoders.get(type);
+
+        if (processor instanceof IKeyedDataProcessor)
+            ((IKeyedDataProcessor) processor).setKey(key);
+
+        return processor;
     }
 }

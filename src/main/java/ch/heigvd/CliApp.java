@@ -8,7 +8,6 @@ import picocli.CommandLine.Parameters;
 import java.io.*;
 import java.util.concurrent.Callable;
 
-
 /**
  * CLI class for encoding/decoding files.
  * Uses the @Command annotation from the picocli library to define command-line options and parameters.
@@ -41,6 +40,12 @@ public class CliApp implements Callable<Integer> {
     private boolean isDecoder;
 
     /**
+     * Key used to encode or decode the types depends on the algorithms used.
+     */
+    @Option(names = "--key", description = "key used to encode or decode the types depends on the algorithms used")
+    private String key;
+
+    /**
      * Method called to execute the encoding or decoding.
      *
      * @return 0 on success, 1 on failure.
@@ -48,7 +53,7 @@ public class CliApp implements Callable<Integer> {
      */
     @Override
     public Integer call() throws Exception {
-        IDataProcessor dataProcessor = DataProcessorFactory.getProcessor(type, isDecoder);
+        IDataProcessor dataProcessor = DataProcessorFactory.getProcessor(type, isDecoder, key);
 
         if (dataProcessor == null) {
             System.out.println("Invalid type specified");
