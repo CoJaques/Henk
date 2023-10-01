@@ -10,6 +10,7 @@ public interface IKeyedDataProcessor extends IDataProcessor {
      * Sets the encryption or decryption key.
      *
      * @param key The key as a string.
+     * @throws IllegalArgumentException if the key is not of the correct length.
      */
-    void setKey(String key);
+    void setKey(String key) throws IllegalArgumentException;
 }

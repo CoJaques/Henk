@@ -49,29 +49,73 @@ public class CliApp implements Callable<Integer> {
      * Method called to execute the encoding or decoding.
      *
      * @return 0 on success, 1 on failure.
-     * @throws Exception If an exception occurs during processing.
      */
     @Override
-    public Integer call() throws Exception {
-        IDataProcessor dataProcessor = DataProcessorFactory.getProcessor(type, isDecoder, key);
+    public Integer call() {
+        IDataProcessor dataProcessor = getDataProcessor();
+        if (dataProcessor == null) return 1;
 
-        if (dataProcessor == null) {
-            System.out.println("Invalid type specified");
-            return 1;
+        byte[] inputBytes = getInputBytes();
+        if (inputBytes == null) return 1;
+
+        byte[] outputBytes = processByte(dataProcessor, inputBytes);
+        if (outputBytes == null) return 1;
+
+        return writeOutputByte(outputBytes, dataProcessor);
+    }
+
+    private static byte[] processByte(IDataProcessor dataProcessor, byte[] inputBytes) {
+        byte[] outputBytes;
+        try {
+            outputBytes = dataProcessor.process(inputBytes);
+        } catch (Exception e) {
+            System.out.println("Error processing file" + e.getMessage());
+            return null;
         }
+        return outputBytes;
+    }
 
-        byte[] inputBytes;
-        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(inputFile))) {
-            inputBytes = bis.readAllBytes();
+    private IDataProcessor getDataProcessor() {
+        IDataProcessor dataProcessor;
+
+        try {
+            dataProcessor = DataProcessorFactory.getProcessor(type, isDecoder, key);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error during processor generation" + e.getMessage());
+            return null;
         }
+        return dataProcessor;
+    }
 
-        byte[] outputBytes = dataProcessor.process(inputBytes);
-
+    private Integer writeOutputByte(byte[] outputBytes, IDataProcessor dataProcessor) {
         try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outputFile))) {
             bos.write(outputBytes);
+        } catch (FileNotFoundException e) {
+            System.out.println("Output file not found" + e.getMessage());
+            return 1;
+        } catch (IOException e) {
+            System.out.println("Error writing output file : " + e.getMessage());
+            return 1;
+        } catch (Exception e) {
+            System.out.println("Error processing file" + e.getMessage());
+            return 1;
         }
 
         System.out.println(dataProcessor.getSuccessMessage() + outputFile);
         return 0;
+    }
+
+    private byte[] getInputBytes() {
+        byte[] inputBytes;
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(inputFile))) {
+            inputBytes = bis.readAllBytes();
+        } catch (FileNotFoundException e) {
+            System.out.println("Input file not found" + e.getMessage());
+            return null;
+        } catch (IOException e) {
+            System.out.println("Error reading input file" + e.getMessage());
+            return null;
+        }
+        return inputBytes;
     }
 }
