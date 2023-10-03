@@ -24,7 +24,7 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>RELEASE</version>
-            <scope>test</scope>
+            <scope>LATEST</scope>
         </dependency>
     </dependencies>
 
