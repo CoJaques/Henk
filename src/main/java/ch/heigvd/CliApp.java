@@ -12,38 +12,39 @@ import java.util.concurrent.Callable;
  * CLI class for encoding/decoding files.
  * Uses the @Command annotation from the picocli library to define command-line options and parameters.
  */
-@Command(description = "File encoder/decoder", mixinStandardHelpOptions = true)
+@Command(name = "Henk", mixinStandardHelpOptions = true, version = "Henk 1.0",
+        description = "Decode or Encode files using different algorithms.")
 public class CliApp implements Callable<Integer> {
 
     /**
      * Path to the input file.
      */
     @Parameters(index = "0", description = "Input file path")
-    private String inputFile;
+    public String inputFile;
 
     /**
      * Path to the output file.
      */
     @Parameters(index = "1", description = "Output file path")
-    private String outputFile;
+    public String outputFile;
 
     /**
      * Type of encoding/decoding to use.
      */
     @Option(names = "--type", description = "Type of encoding/decoding")
-    private String type;
+    public String type;
 
     /**
      * Indicates if the action is to decode.
      */
     @Option(names = "--decode", description = "decode action")
-    private boolean isDecoder;
+    public boolean isDecoder;
 
     /**
      * Key used to encode or decode the types depends on the algorithms used.
      */
     @Option(names = "--key", description = "key used to encode or decode the types depends on the algorithms used")
-    private String key;
+    public String key;
 
     /**
      * Method called to execute the encoding or decoding.
@@ -52,6 +53,11 @@ public class CliApp implements Callable<Integer> {
      */
     @Override
     public Integer call() {
+        if(inputFile == null || outputFile == null){
+            System.out.println("Input or output can't be null");
+            return 1;
+        }
+
         IDataProcessor dataProcessor = getDataProcessor();
         if (dataProcessor == null) return 1;
 

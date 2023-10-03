@@ -13,8 +13,8 @@ public abstract class AESProcessor implements ch.heigvd.Processor.IKeyedDataProc
      */
     @Override
     public void setKey(String key) throws IllegalArgumentException {
-        if (key.length() != 16 && key.length() != 24 && key.length() != 32)
-            throw new IllegalArgumentException("Key must be 16/24/32 characters long");
+        if (key == null || key.length() != 32 && key.length() != 48 && key.length() != 64)
+            throw new IllegalArgumentException("Key must be 32/48/64 characters long");
 
         this.key = key;
     }
