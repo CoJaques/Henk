@@ -2,55 +2,48 @@
 
 ## Introduction
 
-CliApp is a command-line interface (CLI) utility for encoding and decoding files. It supports various encoding and decoding algorithms, specified at runtime via command-line options. Built on the Java platform, it uses the picocli library to handle command-line arguments and options.
+Henk is a Command-Line Interface (CLI) utility designed for encoding and decoding files. The program supports a range of encoding and decoding algorithms and offers two specific commands: `Encode` and `Decode`. Built on the Java platform, it uses the picocli library for command-line argument and option handling.
 
 ## Installation
 
-Compile the Java classes and package them into a JAR file. Make sure you include the picocli library in your classpath.
+Compile the Java classes and package them into a JAR file. Make sure to include the picocli library in your classpath.
 
 ## Usage
 
-The general format for running the CliApp is as follows:
+### Command for Encoding a File
 
+```sh
+java -jar <path-to-jar> --input-file <input-file-path> --output-file <output-file-path> --type <type> [--key <key>] Encode
 ```
-java -jar <path-to-jar> <input-file-path> <output-file-path> [--type <type>] [--decode] [--key <key>]
+
+### Command for Decoding a File
+
+```sh
+java -jar <path-to-jar> --input-file <input-file-path> --output-file <output-file-path> --type <type> [--key <key>] Decode
 ```
 
 ### Parameters
 
-- `<input-file-path>`: The path to the file you want to encode or decode.
-- `<output-file-path>`: The path where the encoded or decoded file will be saved.
+- `--input-file <input-file-path>`: Path to the file you want to encode or decode.
+- `--output-file <output-file-path>`: Path where the encoded or decoded file will be saved.
 
 ### Options
 
-- `--type <type>`: Specifies the type of encoding or decoding to use. Available types are "base64", "rot13", and "aes".
-- `--decode`: Use this flag if you want to decode the input file.
-- `--key <key>`: Specifies the key to use for encoding or decoding types that depend on cryptographic keys (e.g., "aes").
+- `--type <type>`: Specifies the type of encoding or decoding to use. Available types are "base64," "rot13," and "aes."
+- `--key <key>`: [Optional] Specifies the key for encoding or decoding types that rely on cryptographic keys (e.g., "aes").
 
 ## Examples
 
 ### Encoding a File with Base64
 
 ```sh
-java -jar CliApp.jar input.txt output.txt --type base64
+java -jar Henk.jar inputFile output.txt base64 Encode
 ```
 
 ### Decoding a File with Base64
 
 ```sh
-java -jar CliApp.jar input.txt output.txt --type base64 --decode
-```
-
-### Encoding a File with AES
-
-```sh
-java -jar CliApp.jar input.txt output.txt --type aes --key yourKeyHere
-```
-
-### Decoding a File with AES
-
-```sh
-java -jar CliApp.jar input.txt output.txt --type aes --decode --key yourKeyHere
+java -jar Henk.jar input.txt output.txt base64 Decode
 ```
 
 ## Supported Processors
@@ -58,8 +51,8 @@ java -jar CliApp.jar input.txt output.txt --type aes --decode --key yourKeyHere
 - Base64 Encoder
 - Base64 Decoder
 - ROT13 Processor (encoder and decoder)
-- AES Encoder
-- AES Decoder
+- AES Encoder [Key of 16, 24, 32 bytes]
+- AES Decoder [Key of 16, 24, 32 bytes]
 
 ## Return Codes
 
@@ -68,7 +61,4 @@ java -jar CliApp.jar input.txt output.txt --type aes --decode --key yourKeyHere
 
 ## Contributing and Support
 
-For any issues, please refer to the source code and submit a pull request
-
-Feel free to extend the supported algorithms by modifying the `DataProcessorFactory` class and implementing new `IDataProcessor` classes.
-
+For any issues, please refer to the source code and submit a pull request. Feel free to extend the supported algorithms by modifying the `DataProcessorFactory` class and implementing new `IDataProcessor` classes.

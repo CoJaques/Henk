@@ -28,7 +28,7 @@ public class CliApp {
     /**
      * Type of encoding/decoding to use.
      */
-    @Option(names = "--type", description = "Type of encoding/decoding")
+    @Parameters(index = "2", description = "Type of encoding/decoding")
     public String type;
 
     /**
