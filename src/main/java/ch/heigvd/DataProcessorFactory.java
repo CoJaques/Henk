@@ -1,9 +1,9 @@
 package ch.heigvd;
 
-import ch.heigvd.Processor.Base64.Base64Decoder;
-import ch.heigvd.Processor.Base64.Base64Encoder;
 import ch.heigvd.Processor.Aes.AESDecoder;
 import ch.heigvd.Processor.Aes.AESEncoder;
+import ch.heigvd.Processor.Base64.Base64Decoder;
+import ch.heigvd.Processor.Base64.Base64Encoder;
 import ch.heigvd.Processor.IDataProcessor;
 import ch.heigvd.Processor.IKeyedDataProcessor;
 import ch.heigvd.Processor.ROT13.ROT13Processor;

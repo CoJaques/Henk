@@ -7,6 +7,7 @@ import java.security.GeneralSecurityException;
 
 /**
  * Implementation of the IKeyedDataProcessor interface for AES decryption.
+ *
  * @see <a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Wikipedia page on AES</a>.
  */
 public class AESDecoder extends AESProcessor {

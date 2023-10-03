@@ -4,6 +4,7 @@ import ch.heigvd.Processor.IDataProcessor;
 
 /**
  * ROT13 processor class for encoding/decoding data using ROT13 algorithm.
+ *
  * @see <a href="https://en.wikipedia.org/wiki/ROT13">ROT13</a>
  */
 public class ROT13Processor implements IDataProcessor {
