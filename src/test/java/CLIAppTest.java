@@ -20,14 +20,13 @@ public class CLIAppTest {
         app.inputFile = "src/test/resources/input.txt";
         app.outputFile = "src/test/resources/output.txt";
         app.type = "base64";
-        app.isDecoder = false;
         app.key = "key";
 
         try (OutputStream os = new FileOutputStream("src/test/resources/input.txt")) {
             os.write(new byte[]{55, 56, 57});
         }
 
-        Integer result = app.call();
+        Integer result = app.Encode();
 
         assertEquals(0, result.intValue());
 
@@ -45,10 +44,9 @@ public class CLIAppTest {
         app.inputFile = "src/test/resources/input.txt";
         app.outputFile = "src/test/resources/output.txt";
         app.type = "mockType";
-        app.isDecoder = false;
         app.key = "key";
 
-        Integer result = app.call();
+        Integer result = app.Decode();
 
         assertEquals(1, result.intValue());
     }
@@ -58,10 +56,9 @@ public class CLIAppTest {
         app.inputFile = "notFound";
         app.outputFile = "src/test/resources/output.txt";
         app.type = "rot13";
-        app.isDecoder = false;
         app.key = "key";
 
-        Integer result = app.call();
+        Integer result = app.Decode();
 
         assertEquals(1, result.intValue());
     }
@@ -71,9 +68,8 @@ public class CLIAppTest {
         app.inputFile = "src/test/resources/input.txt";
         app.outputFile = "src/test/resources/output.txt";
         app.type = "aes";
-        app.isDecoder = false;
 
-        Integer result = app.call();
+        Integer result = app.Decode();
 
         assertEquals(1, result.intValue());
     }
@@ -82,10 +78,9 @@ public class CLIAppTest {
     public void errorWithNoType() {
         app.inputFile = "src/test/resources/input.txt";
         app.outputFile = "src/test/resources/output.txt";
-        app.isDecoder = false;
         app.key = "key";
 
-        Integer result = app.call();
+        Integer result = app.Decode();
 
         assertEquals(1, result.intValue());
     }
@@ -93,10 +88,9 @@ public class CLIAppTest {
     @Test
     public void errorWithNoFile() {
         app.type = "aes";
-        app.isDecoder = false;
         app.key = "12345678123456781234567812345678";
 
-        Integer result = app.call();
+        Integer result = app.Decode();
 
         assertEquals(1, result.intValue());
     }

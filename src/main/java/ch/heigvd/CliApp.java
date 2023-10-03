@@ -6,15 +6,12 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.io.*;
-import java.util.concurrent.Callable;
 
 /**
  * CLI class for encoding/decoding files.
  * Uses the @Command annotation from the picocli library to define command-line options and parameters.
  */
-@Command(name = "Henk", mixinStandardHelpOptions = true, version = "Henk 1.0",
-        description = "Decode or Encode files using different algorithms.")
-public class CliApp implements Callable<Integer> {
+public class CliApp {
 
     /**
      * Path to the input file.
@@ -35,32 +32,50 @@ public class CliApp implements Callable<Integer> {
     public String type;
 
     /**
-     * Indicates if the action is to decode.
-     */
-    @Option(names = "--decode", description = "decode action")
-    public boolean isDecoder;
-
-    /**
      * Key used to encode or decode the types depends on the algorithms used.
      */
     @Option(names = "--key", description = "key used to encode or decode the types depends on the algorithms used")
     public String key;
 
     /**
-     * Method called to execute the encoding or decoding.
+     * Decode command.
      *
      * @return 0 on success, 1 on failure.
      */
-    @Override
-    public Integer call() {
-        if(inputFile == null || outputFile == null){
+    @Command(name = "Decode", mixinStandardHelpOptions = true, version = "Decode 1.0",
+            description = "Decode files using different algorithms.")
+    public Integer Decode() {
+        if (inputFile == null || outputFile == null) {
             System.out.println("Input or output can't be null");
             return 1;
         }
 
-        IDataProcessor dataProcessor = getDataProcessor();
+        IDataProcessor dataProcessor = getDataProcessor(true);
         if (dataProcessor == null) return 1;
 
+        return process(dataProcessor);
+    }
+
+    /**
+     * Encode command.
+     *
+     * @return 0 on success, 1 on failure.
+     */
+    @Command(name = "Encode", mixinStandardHelpOptions = true, version = "Encode 1.0",
+            description = "Encode files using different algorithms.")
+    public Integer Encode() {
+        if (inputFile == null || outputFile == null) {
+            System.out.println("Input or output can't be null");
+            return 1;
+        }
+
+        IDataProcessor dataProcessor = getDataProcessor(false);
+        if (dataProcessor == null) return 1;
+
+        return process(dataProcessor);
+    }
+
+    private int process(IDataProcessor dataProcessor) {
         byte[] inputBytes = getInputBytes();
         if (inputBytes == null) return 1;
 
@@ -81,7 +96,7 @@ public class CliApp implements Callable<Integer> {
         return outputBytes;
     }
 
-    private IDataProcessor getDataProcessor() {
+    private IDataProcessor getDataProcessor(boolean isDecoder) {
         IDataProcessor dataProcessor;
 
         try {
