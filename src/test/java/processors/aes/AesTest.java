@@ -1,4 +1,4 @@
-package aes;
+package processors.aes;
 
 import ch.heigvd.Processor.Aes.AESDecoder;
 import ch.heigvd.Processor.Aes.AESEncoder;
@@ -9,7 +9,6 @@ import java.security.GeneralSecurityException;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 
 public class AesTest {
 

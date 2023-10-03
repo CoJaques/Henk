@@ -1,4 +1,4 @@
-package base64;
+package processors.base64;
 
 import ch.heigvd.Processor.Base64.Base64Decoder;
 import ch.heigvd.Processor.Base64.Base64Encoder;

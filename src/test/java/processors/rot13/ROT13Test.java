@@ -1,4 +1,4 @@
-package rot13;
+package processors.rot13;
 
 import ch.heigvd.Processor.ROT13.ROT13Processor;
 import org.junit.jupiter.api.BeforeAll;
@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class ROT13Test {
-
     private static ROT13Processor rot13Processor;
 
     @BeforeAll
