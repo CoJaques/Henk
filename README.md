@@ -13,23 +13,22 @@ Compile the Java classes and package them into a JAR file. Make sure to include 
 ### Command for Encoding a File
 
 ```sh
-java -jar <path-to-jar> --input-file <input-file-path> --output-file <output-file-path> --type <type> [--key <key>] Encode
+java -jar <path-to-jar> <input-file-path> <output-file-path> <type> [--key <key>] Encode
 ```
 
 ### Command for Decoding a File
 
 ```sh
-java -jar <path-to-jar> --input-file <input-file-path> --output-file <output-file-path> --type <type> [--key <key>] Decode
+java -jar <path-to-jar> <input-file-path> <output-file-path> <type> [--key <key>] Decode
 ```
 
 ### Parameters
 
-- `--input-file <input-file-path>`: Path to the file you want to encode or decode.
-- `--output-file <output-file-path>`: Path where the encoded or decoded file will be saved.
+- ` <input-file-path>`: Path to the file you want to encode or decode.
+- ` <output-file-path>`: Path where the encoded or decoded file will be saved.
+- ` <type>`: Specifies the type of encoding or decoding to use. Available types are "base64," "rot13," and "aes."
 
 ### Options
-
-- `--type <type>`: Specifies the type of encoding or decoding to use. Available types are "base64," "rot13," and "aes."
 - `--key <key>`: [Optional] Specifies the key for encoding or decoding types that rely on cryptographic keys (e.g., "aes").
 
 ## Examples
