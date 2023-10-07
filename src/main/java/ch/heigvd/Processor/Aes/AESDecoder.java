@@ -1,5 +1,7 @@
 package ch.heigvd.Processor.Aes;
 
+import ch.heigvd.DataProcessorFactory;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
@@ -33,5 +35,10 @@ public class AESDecoder extends AESProcessor {
      */
     public String getSuccessMessage() {
         return "File decoded using AES and written to: ";
+    }
+
+    @Override
+    public void register() {
+        DataProcessorFactory.addDecoder("aes", this);
     }
 }

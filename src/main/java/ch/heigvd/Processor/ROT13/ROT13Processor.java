@@ -1,5 +1,6 @@
 package ch.heigvd.Processor.ROT13;
 
+import ch.heigvd.DataProcessorFactory;
 import ch.heigvd.Processor.IDataProcessor;
 
 /**
@@ -22,6 +23,12 @@ public class ROT13Processor implements IDataProcessor {
             else output[i] = c;
         }
         return output;
+    }
+
+    @Override
+    public void register() {
+        DataProcessorFactory.addDecoder("rot13", this);
+        DataProcessorFactory.addEncoder("rot13", this);
     }
 
     public String getSuccessMessage() {

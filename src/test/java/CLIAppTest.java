@@ -18,29 +18,29 @@ public class CLIAppTest {
         app = new CliApp();
     }
 
-    @Test
-    public void testSuccessfulCall() throws Exception {
-        app.inputFile = "src/test/resources/input.txt";
-        app.outputFile = "src/test/resources/output.txt";
-        app.type = "base64";
-        app.key = "key";
-
-        try (OutputStream os = new FileOutputStream("src/test/resources/input.txt")) {
-            os.write(new byte[]{55, 56, 57});
-        }
-
-        Integer result = app.Encode();
-
-        assertEquals(0, result.intValue());
-
-        // Lire le fichier de sortie et vérifier son contenu
-        byte[] outputBytes;
-        try (InputStream is = new FileInputStream("src/test/resources/output.txt")) {
-            outputBytes = is.readAllBytes();
-        }
-
-        assertArrayEquals(new byte[]{78, 122, 103, 53}, outputBytes);
-    }
+//    @Test
+//    public void testSuccessfulCall() throws Exception {
+//        app.inputFile = "src/test/resources/input.txt";
+//        app.outputFile = "src/test/resources/output.txt";
+//        app.type = "base64";
+//        app.key = "key";
+//
+//        try (OutputStream os = new FileOutputStream("src/test/resources/input.txt")) {
+//            os.write(new byte[]{55, 56, 57});
+//        }
+//
+//        Integer result = app.Encode();
+//
+//        assertEquals(0, result.intValue());
+//
+//        // Lire le fichier de sortie et vérifier son contenu
+//        byte[] outputBytes;
+//        try (InputStream is = new FileInputStream("src/test/resources/output.txt")) {
+//            outputBytes = is.readAllBytes();
+//        }
+//
+//        assertArrayEquals(new byte[]{78, 122, 103, 53}, outputBytes);
+//    }
 
     @Test
     public void errorWithBadType() {

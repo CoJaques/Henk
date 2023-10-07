@@ -12,6 +12,8 @@ public interface IDataProcessor {
      */
     byte[] process(byte[] input) throws Exception;
 
+    void register();
+
     /**
      * Get the success message
      *

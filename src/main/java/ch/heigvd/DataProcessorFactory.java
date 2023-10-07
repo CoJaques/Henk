@@ -1,15 +1,13 @@
 package ch.heigvd;
 
-import ch.heigvd.Processor.Aes.AESDecoder;
-import ch.heigvd.Processor.Aes.AESEncoder;
-import ch.heigvd.Processor.Base64.Base64Decoder;
-import ch.heigvd.Processor.Base64.Base64Encoder;
 import ch.heigvd.Processor.IDataProcessor;
 import ch.heigvd.Processor.IKeyedDataProcessor;
-import ch.heigvd.Processor.ROT13.ROT13Processor;
+import org.reflections.Reflections;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Factory class for creating data processor instances based on type and operation.
@@ -19,13 +17,12 @@ public class DataProcessorFactory {
     private static final Map<String, IDataProcessor> decoders = new HashMap<>();
     private static final Map<String, IDataProcessor> encoders = new HashMap<>();
 
-    static {
-        decoders.put("base64", new Base64Decoder());
-        encoders.put("base64", new Base64Encoder());
-        decoders.put("rot13", new ROT13Processor());
-        encoders.put("rot13", new ROT13Processor());
-        decoders.put("aes", new AESDecoder());
-        encoders.put("aes", new AESEncoder());
+    public static void addDecoder(String type, IDataProcessor decoder) {
+        decoders.put(type, decoder);
+    }
+
+    public static void addEncoder(String type, IDataProcessor encoder) {
+        encoders.put(type, encoder);
     }
 
     /**
@@ -37,6 +34,9 @@ public class DataProcessorFactory {
      * @throws IllegalArgumentException If the type is unknown.
      */
     public static IDataProcessor getProcessor(String type, boolean isDecoder, String key) throws IllegalArgumentException {
+        if (decoders.isEmpty() || encoders.isEmpty())
+            registerProcessors();
+
         IDataProcessor processor = isDecoder ? decoders.get(type) : encoders.get(type);
 
         if (processor instanceof IKeyedDataProcessor)
@@ -46,5 +46,20 @@ public class DataProcessorFactory {
             throw new IllegalArgumentException("Unknown type: " + type);
 
         return processor;
+    }
+
+    private static void registerProcessors() {
+        Reflections reflections = new Reflections("ch.heigvd.Processor");
+        Set<Class<? extends IDataProcessor>> processors = reflections.getSubTypesOf(IDataProcessor.class);
+
+        for (Class<? extends IDataProcessor> processor : processors) {
+            try {
+                IDataProcessor instance = processor.getDeclaredConstructor().newInstance();
+                Method method = processor.getDeclaredMethod("register");
+                method.invoke(instance);
+            } catch (Exception e) {
+                System.out.println("Error while registering processor: " + e.getMessage());
+            }
+        }
     }
 }

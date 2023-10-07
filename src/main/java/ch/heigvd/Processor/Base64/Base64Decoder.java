@@ -1,5 +1,6 @@
 package ch.heigvd.Processor.Base64;
 
+import ch.heigvd.DataProcessorFactory;
 import ch.heigvd.Processor.IDataProcessor;
 
 import java.util.Base64;
@@ -23,5 +24,10 @@ public class Base64Decoder implements IDataProcessor {
 
     public String getSuccessMessage() {
         return "File decoded using base 64 and written to: ";
+    }
+
+    @Override
+    public void register() {
+        DataProcessorFactory.addDecoder("base64", this);
     }
 }
