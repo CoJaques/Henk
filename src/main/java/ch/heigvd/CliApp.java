@@ -45,6 +45,7 @@ public class CliApp {
     @Command(name = "Decode", mixinStandardHelpOptions = true, version = "Decode 1.0",
             description = "Decode files using different algorithms.")
     public Integer Decode() {
+        long begin = System.currentTimeMillis();
         if (inputFile == null || outputFile == null) {
             System.out.println("Input or output can't be null");
             return 1;
@@ -53,7 +54,10 @@ public class CliApp {
         IDataProcessor dataProcessor = getDataProcessor(true);
         if (dataProcessor == null) return 1;
 
-        return process(dataProcessor);
+        int result = process(dataProcessor);
+
+        computeTimeAndPrintIt(begin);
+        return result;
     }
 
     /**
@@ -64,6 +68,7 @@ public class CliApp {
     @Command(name = "Encode", mixinStandardHelpOptions = true, version = "Encode 1.0",
             description = "Encode files using different algorithms.")
     public Integer Encode() {
+        long begin = System.currentTimeMillis();
         if (inputFile == null || outputFile == null) {
             System.out.println("Input or output can't be null");
             return 1;
@@ -72,7 +77,15 @@ public class CliApp {
         IDataProcessor dataProcessor = getDataProcessor(false);
         if (dataProcessor == null) return 1;
 
-        return process(dataProcessor);
+        int result = process(dataProcessor);
+        computeTimeAndPrintIt(begin);
+        return result;
+    }
+
+    private static void computeTimeAndPrintIt(long begin) {
+        long end = System.currentTimeMillis();
+        long executionTime = end - begin;
+        System.out.println("Execution time: " + executionTime + "ms");
     }
 
     private int process(IDataProcessor dataProcessor) {
